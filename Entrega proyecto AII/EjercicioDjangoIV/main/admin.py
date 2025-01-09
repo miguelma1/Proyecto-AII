@@ -1,6 +1,6 @@
-from main.models import Producto
+from main.models import RopaHombre
 from django.contrib import admin
 
 
-admin.site.register(Producto)
+admin.site.register(RopaHombre)
 

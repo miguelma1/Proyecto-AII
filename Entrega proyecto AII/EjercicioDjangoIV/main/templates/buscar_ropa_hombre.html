@@ -1,0 +1,14 @@
+<form method="get" action="{% url 'buscar' %}">
+    <input type="text" name="q" placeholder="Buscar ropa" value="{{ query }}">
+    <button type="submit">Buscar</button>
+</form>
+
+{% if results %}
+    <ul>
+    {% for result in results %}
+        <li>{{ result }}</li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No se encontraron resultados.</p>
+{% endif %}

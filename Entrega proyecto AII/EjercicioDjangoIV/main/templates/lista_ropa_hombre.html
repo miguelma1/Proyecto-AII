@@ -1,0 +1,33 @@
+<!-- templates/lista_ropa_hombre.html -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Ropa de Hombre</title>
+</head>
+<body>
+    <a href="{% url 'pagina_inicio' %}" class="btn-volver">Volver a la Página de Inicio</a>
+    
+    <h1>Lista de Ropa de Hombre</h1>
+    
+    <div class="ropa-lista">
+        {% for item in ropa_hombre %}
+            <div class="ropa-item">
+                <h2>{{ item.nombre }}</h2>
+                <p><strong>Precio:</strong> {{ item.precio }}</p>
+                {% if item.precio_original %}
+                    <p><strong>Precio Original:</strong> {{ item.precio_original }}</p>
+                {% endif %}
+                {% if item.descuento %}
+                    <p><strong>Descuento:</strong> {{ item.descuento }}</p>
+                {% endif %}
+                <p><strong>Tallas:</strong> {{ item.tallas }}</p>
+                <p><a href="{{ item.enlace }}" target="_blank">Ir a la página de compra</a></p>
+            </div>
+        {% empty %}
+            <p>No hay ropa disponible.</p>
+        {% endfor %}
+    </div>
+</body>
+</html>

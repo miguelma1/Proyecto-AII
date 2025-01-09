@@ -1,6 +1,6 @@
 #encoding:utf-8
 from django import forms
-from main.models import Producto
+from main.models import RopaHombre
 
 from datetime import datetime
 from django.core.validators import MinValueValidator, MaxValueValidator

@@ -1,5 +1,5 @@
 #encoding:utf-8
-from main.models import Producto
+from main.models import RopaHombre
 
 path = "data"
 

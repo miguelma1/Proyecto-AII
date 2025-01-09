@@ -1,0 +1,17 @@
+<!-- main/templates/confirmar_recarga.html -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmar Recarga</title>
+</head>
+<body>
+    <h1>¿Está seguro de que desea recargar los datos?</h1>
+    <form method="POST">
+        {% csrf_token %}
+        <button type="submit">Sí, recargar</button>
+        <a href="{% url 'pagina_inicio' %}">Cancelar</a>
+    </form>
+</body>
+</html>

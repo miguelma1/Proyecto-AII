@@ -1,18 +1,19 @@
 # scraping.py
 import requests
 from bs4 import BeautifulSoup
-from main.models import Producto  # Importa tu modelo de Django
+from main.models import RopaHombre
+from whoosh.index import create_in
 
-def extraer_productos():
+def extraer_ropaHombre():
     lista = []
     url = "https://pbsapparel.com/collections/ropa"
     f = requests.get(url)
     s = BeautifulSoup(f.content, "lxml")
 
-    productos = s.find_all("div", class_="product-grid-item__info")
-    for producto in productos:
-        nombre = producto.find("a", class_="product-grid-item__title").get_text(strip=True)
-        enlace = "https://pbsapparel.com" + producto.find("a", class_="product-grid-item__title")["href"]
+    ropasHombre = s.find_all("div", class_="product-grid-item__info")
+    for ropaHombre in ropasHombre:
+        nombre = ropaHombre.find("a", class_="product-grid-item__title").get_text(strip=True)
+        enlace = "https://pbsapparel.com" + ropaHombre.find("a", class_="product-grid-item__title")["href"]
         
         f1 = requests.get(enlace)
         j = BeautifulSoup(f1.content, "lxml")
@@ -28,8 +29,8 @@ def extraer_productos():
         lista_tallas = [talla.get_text().replace("\n", "") for talla in tallas]
         lista_tallas = str(lista_tallas[1:]).replace("'", "")
         
-        # Crear el objeto Producto y guardarlo en la base de datos
-        producto_db = Producto(
+        # Crear el objeto RopaHombre y guardarlo en la base de datos
+        ropaHombre_db = RopaHombre(
             nombre=nombre,
             enlace=enlace,
             precio=precio,
@@ -37,6 +38,28 @@ def extraer_productos():
             descuento=descuento,
             tallas=lista_tallas
         )
-        producto_db.save()
+        ropaHombre_db.save()
 
-    print("Productos guardados en la base de datos.")
+    print("Ropa de hombre guardada en la base de datos.")
+
+def indexar_datos():
+    #define el esquema de la informaciÃ³n
+    schem = Schema(nombre=TEXT(stored=True), enlace=TEXT(stored=True), precio=TEXT(stored=True), precio_original=TEXT(stored=True), descuento=TEXT(stored=True), tallas=TEXT(stored=True))
+    
+    #eliminamos el directorio del Ã­ndice, si existe
+    if os.path.exists("Index"):
+        shutil.rmtree("Index")
+    os.mkdir("Index")
+    
+    #creamos el Ã­ndice
+    ix = create_in("Index", schema=schem)
+    #creamos un writer para poder aÃ±adir documentos al indice
+    writer = ix.writer()
+    i=0
+    lista=extraer_ropaHombre()()
+    for j in lista:
+        #aÃ±ade cada juego de la lista al Ã­ndice
+        writer.add_document(nombre=str(j[0]), enlace=int(j[1]), precio=str(j[2]), precio_original=j[3], descuento=str(j[4]), tallas=str(j[5]))    
+        i+=1
+    writer.commit()
+    messagebox.showinfo("Fin de indexado", "Se han indexado "+str(i)+ " prendas de ropa de hombre") 
