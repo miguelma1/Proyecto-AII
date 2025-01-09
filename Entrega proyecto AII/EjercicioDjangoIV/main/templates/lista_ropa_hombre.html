@@ -16,6 +16,18 @@
             margin-top: 20px;
             color: #2c3e50;
         }
+        .btn {
+            display: inline-block;
+            padding: 12px 20px;
+            margin: 10px;
+            font-size: 16px;
+            background-color: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            text-align: center;
+            transition: background-color 0.3s ease;
+        }
         .btn-volver {
             display: inline-block;
             padding: 12px 20px;
@@ -75,9 +87,32 @@
             text-decoration: line-through;
             color: #e74c3c;
         }
-        /* Estilo para los artículos en oferta */
         .ropa-item.oferta {
-            background-color: #eafaf1; /* Fondo ligeramente más claro */
+            background-color: #eafaf1; 
+        }
+        .ropa-item.oferta .precio-original {
+            color: #e74c3c; 
+        }
+        .form-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+            padding: 20px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        label, input, button {
+            margin: 10px;
+        }
+        .resultado-info {
+            text-align: center;
+            font-size: 18px;
+            margin-top: 20px;
+            font-weight: bold;
         }
     </style>
 </head>
@@ -88,7 +123,31 @@
     
     <div style="text-align: center;">
         <a href="{% url 'buscar_ropa_hombre' %}" class="btn">Buscar</a>
+        <a href="{% url 'lista_ropa_hombre_rebajada' %}" class="btn">Ofertas</a>
+        <a href="{% url 'lista_ropa_hombre' %}" class="btn">Todo</a>
     </div>
+
+    <div class="form-container">
+        <form method="get" action="{% url 'buscar_precio' %}">
+            <label for="precio_min">Precio Mínimo:</label>
+            <input type="number" step="0.01" id="precio_min" name="precio_min" placeholder="Ej: 10.50" required>
+            
+            <label for="precio_max">Precio Máximo:</label>
+            <input type="number" step="0.01" id="precio_max" name="precio_max" placeholder="Ej: 20.80" required>
+            
+            <button type="submit">Buscar</button>
+        </form>
+    </div>
+
+    {% if ropa_hombre %}
+        <div class="resultado-info">
+            Se han encontrado {{ ropa_hombre|length }} resultados.
+        </div>
+    {% else %}
+        <div class="resultado-info">
+            No se han encontrado resultados para el rango de precios seleccionado.
+        </div>
+    {% endif %}
 
     <div class="ropa-lista">
         {% for item in ropa_hombre %}
@@ -105,7 +164,7 @@
                 <p><a href="{{ item.enlace }}" target="_blank">Ir a la página de compra</a></p>
             </div>
         {% empty %}
-            <p>No hay ropa disponible.</p>
+            <p>No hay ropa disponible para el rango de precios seleccionado.</p>
         {% endfor %}
     </div>
 </body>

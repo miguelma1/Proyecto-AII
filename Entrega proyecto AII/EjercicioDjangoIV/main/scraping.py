@@ -4,7 +4,11 @@ from bs4 import BeautifulSoup
 from main.models import RopaHombre
 from whoosh.index import create_in
 
+
 def extraer_ropaHombre():
+
+    RopaHombre.objects.all().delete()
+    
     lista = []
     url = "https://pbsapparel.com/collections/ropa"
     f = requests.get(url)
@@ -29,7 +33,6 @@ def extraer_ropaHombre():
         lista_tallas = [talla.get_text().replace("\n", "") for talla in tallas]
         lista_tallas = str(lista_tallas[1:]).replace("'", "")
         
-        # Crear el objeto RopaHombre y guardarlo en la base de datos
         ropaHombre_db = RopaHombre(
             nombre=nombre,
             enlace=enlace,
@@ -43,22 +46,17 @@ def extraer_ropaHombre():
     print("Ropa de hombre guardada en la base de datos.")
 
 def indexar_datos():
-    #define el esquema de la informaciÃ³n
     schem = Schema(nombre=TEXT(stored=True), enlace=TEXT(stored=True), precio=TEXT(stored=True), precio_original=TEXT(stored=True), descuento=TEXT(stored=True), tallas=TEXT(stored=True))
     
-    #eliminamos el directorio del Ã­ndice, si existe
     if os.path.exists("Index"):
         shutil.rmtree("Index")
     os.mkdir("Index")
     
-    #creamos el Ã­ndice
     ix = create_in("Index", schema=schem)
-    #creamos un writer para poder aÃ±adir documentos al indice
     writer = ix.writer()
     i=0
     lista=extraer_ropaHombre()()
     for j in lista:
-        #aÃ±ade cada juego de la lista al Ã­ndice
         writer.add_document(nombre=str(j[0]), enlace=int(j[1]), precio=str(j[2]), precio_original=j[3], descuento=str(j[4]), tallas=str(j[5]))    
         i+=1
     writer.commit()
