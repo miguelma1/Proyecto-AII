@@ -1,0 +1,17 @@
+{% extends 'master.html' %}
+
+{% block titulo %} Lista de Vinos Agrupados por Denominacion de Origen {% endblock %}
+
+{% block contenido %} 
+
+	    	{% regroup vinos by denominacion as grouped %}
+	    	{% for group in grouped %}
+		    	<h3>Denominacion: {{group.grouper.nombre}} ({{group.list|length}} vinos)</h3>
+		    		<dl>
+		    		{% for vino in group.list %}
+						<dt><strong>Nombre: </strong>{{vino.nombre}} | <strong>Precio:</strong> {{vino.precio}}</dt>
+					{% endfor %}
+				    </dl>
+	    	{% endfor %}
+
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends 'master.html' %}
+
+{% block titulo %} Busqueda de vinos por a&ntilde;o {% endblock %}	    
+
+{% block contenido %} 
+
+    	<form id="formulario" method="post" action=''>{% csrf_token %}
+    		<fieldset>
+    			<legend>Busqueda de Vinos</legend>
+				{{formulario}}
+    			<BR><BR>
+
+    			<input type='submit' value='Realizar Busqueda'/>
+    		</fieldset>
+    	</form>
+	    
+	    <hr>
+
+	    {% if vinos %}
+		    <h3> Vinos del a&ntilde;o {{anyo}}:  {{ vinos|length }}</h3>
+			<dl>
+			{% for row in vinos %}
+			    <dt><strong>{{row.nombre}}</strong></dt>
+			    <dd>Precio: {{row.precio}} | Denominaci&oacute;n: {{row.denominacion.nombre}}</dd>    
+			{% endfor %}
+			</dl>
+		{% endif %}
+
+{% endblock %}

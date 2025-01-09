@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Poblar Base de Datos</title>
+</head>
+
+{% if messages %}
+  <div>
+    {% for message in messages %}
+      <div class="alert {{ message.tags }}" style="background-color: #d8f3fc; border: 1px solid #8bc1d8; padding: 10px; border-radius: 5px; margin: 10px 0; color: #333;">
+        {{ message }}
+      </div>
+    {% endfor %}
+  </div>
+{% endif %}
+
+
+<body>
+    <h1>Poblar Base de Datos con Productos</h1>
+    <p>Haz clic en el siguiente botón para poblar la base de datos:</p>
+    <a href="{% url 'poblar_base_datos' %}">
+        <button>Ejecutar Scraping</button>
+    </a>
+</body>
+</html>

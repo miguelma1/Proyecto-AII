@@ -35,10 +35,12 @@ def extraer_productos():
         j = BeautifulSoup(f1, "lxml")
         
         precio = j.find("span", class_="product__price--regular").get_text(strip=True)
+        
         precioOriginal = j.find("s", class_="product__price--compare").get_text(strip=True)
-        descuento = ""
+        
         if (j.find("span", class_="descuento-flag") is not None):
             descuento = j.find("span", class_="descuento-flag").get_text(strip=True)
+
         tallas = j.find("div", class_="product__selectors 24").find_all("span")
         listaTallas = []
         for talla in tallas:
@@ -46,6 +48,15 @@ def extraer_productos():
             if (letra not in listaTallas):
                 listaTallas.append(letra)
         listaTallas = str(listaTallas[1:]).replace("'", "")
+
+        """
+        detalles = str(j.find("div", class_="product__block product__accordions").find("p").find("span"))
+        detalles = detalles.replace('<span class="metafield-multi_line_text_field">', "").replace("</span>", "").split("<br/>")
+        detallesAdicionales = []
+        for linea in detalles :
+            detallesAdicionales.append(linea)
+        """
+        
         lista.append((nombre, enlace, precio, precioOriginal, descuento, listaTallas))
         
     return lista
@@ -82,7 +93,7 @@ def imprimir_lista(cursor):
             lb.insert(END,"    Precio original: "+ row[3])
         if (row[3] != ""):  
             lb.insert(END, "    Descuento: " + row[4])
-        lb.insert(END, "    Detalles: " + row[1])
+        lb.insert(END, "    Más detalles: " + row[1])
         lb.insert(END,"    Tallas: "+ row[5])
         lb.insert(END,"\n\n")
     lb.pack(side=LEFT,fill=BOTH)
