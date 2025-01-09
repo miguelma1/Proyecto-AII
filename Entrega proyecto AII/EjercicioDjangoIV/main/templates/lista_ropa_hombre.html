@@ -1,23 +1,99 @@
-<!-- templates/lista_ropa_hombre.html -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lista de Ropa de Hombre</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f7fa;
+            margin: 0;
+            padding: 0;
+        }
+        h1 {
+            text-align: center;
+            margin-top: 20px;
+            color: #2c3e50;
+        }
+        .btn-volver {
+            display: inline-block;
+            padding: 12px 20px;
+            margin: 10px;
+            font-size: 16px;
+            background-color: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            text-align: center;
+            transition: background-color 0.3s ease;
+        }
+        .btn-volver:hover {
+            background-color: #2980b9;
+        }
+        .ropa-lista {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .ropa-item {
+            background-color: white;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .ropa-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+        .ropa-item h2 {
+            font-size: 20px;
+            color: #34495e;
+        }
+        .ropa-item p {
+            font-size: 16px;
+            color: #555;
+        }
+        .ropa-item a {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 8px 16px;
+            background-color: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        .ropa-item a:hover {
+            background-color: #2980b9;
+        }
+        .ropa-item .precio-original {
+            text-decoration: line-through;
+            color: #e74c3c;
+        }
+    </style>
 </head>
 <body>
     <a href="{% url 'pagina_inicio' %}" class="btn-volver">Volver a la Página de Inicio</a>
     
     <h1>Lista de Ropa de Hombre</h1>
     
+    <div style="text-align: center;">
+        <a href="{% url 'buscar_ropa_hombre' %}" class="btn">Buscar</a>
+    </div>
+
+
     <div class="ropa-lista">
         {% for item in ropa_hombre %}
             <div class="ropa-item">
                 <h2>{{ item.nombre }}</h2>
                 <p><strong>Precio:</strong> {{ item.precio }}</p>
                 {% if item.precio_original %}
-                    <p><strong>Precio Original:</strong> {{ item.precio_original }}</p>
+                    <p class="precio-original"><strong>Precio Original:</strong> {{ item.precio_original }}</p>
                 {% endif %}
                 {% if item.descuento %}
                     <p><strong>Descuento:</strong> {{ item.descuento }}</p>

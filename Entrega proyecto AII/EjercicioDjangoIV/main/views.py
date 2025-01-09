@@ -6,9 +6,10 @@ from django.http import HttpResponse
 from django.contrib import messages
 from django.shortcuts import redirect
 from main.scraping import extraer_ropaHombre, indexar_datos
-from main.search import buscar_ropa  
+from main.search import buscar_ropa_hombre  
 import os 
 from whoosh.index import create_in, open_dir
+from main.forms import BusquedaRopaForm
 
 
 
@@ -64,8 +65,11 @@ def lista_ropa_hombre(request):
 
 
 def buscar_ropa_hombre(request):
-    query = request.GET.get('q', '')
-    results = []
-    if query:
-        results = buscar_ropa(query)
-    return render(request, 'buscar.html', {'results': results, 'query': query})
+    form = BusquedaRopaForm(request.GET or None)
+    ropa_hombre = RopaHombre.objects.all()
+
+    if form.is_valid():
+        query = form.cleaned_data['query']
+        ropa_hombre = ropa_hombre.filter(nombre__icontains=query)
+
+    return render(request, 'buscar_ropa_hombre.html', {'form': form, 'ropa_hombre': ropa_hombre})

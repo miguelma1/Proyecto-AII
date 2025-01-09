@@ -2,28 +2,78 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Poblar Base de Datos</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f7fa;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        h1 {
+            text-align: center;
+            margin-top: 20px;
+            color: #2c3e50;
+        }
+        p {
+            text-align: center;
+            font-size: 18px;
+            margin: 20px 0;
+        }
+        .btn {
+            display: inline-block;
+            padding: 12px 20px;
+            margin: 10px;
+            font-size: 16px;
+            background-color: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            text-align: center;
+            transition: background-color 0.3s ease;
+        }
+        .btn:hover {
+            background-color: #2980b9;
+        }
+        .alert {
+            background-color: #d8f3fc;
+            border: 1px solid #8bc1d8;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            color: #333;
+            text-align: center;
+        }
+        .alert.success {
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+        }
+        .alert.error {
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+        }
+    </style>
 </head>
-
-{% if messages %}
-  <div>
-    {% for message in messages %}
-      <div class="alert {{ message.tags }}" style="background-color: #d8f3fc; border: 1px solid #8bc1d8; padding: 10px; border-radius: 5px; margin: 10px 0; color: #333;">
-        {{ message }}
-      </div>
-    {% endfor %}
-  </div>
-{% endif %}
-
-
 <body>
+    {% if messages %}
+        <div>
+            {% for message in messages %}
+                <div class="alert {{ message.tags }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
     <h1>Poblar Base de Datos con ropa de hombre</h1>
     <p>Haz clic en el siguiente botón para poblar la base de datos:</p>
-    <a href="{% url 'poblar_base_datos' %}">
-        <button>Ejecutar Scraping</button>
-    </a>
-    <a href="{% url 'indexar_datos' %}">
-      <button>Indexar datos</button>
-  </a>
+    
+    <div style="text-align: center;">
+        <a href="{% url 'poblar_base_datos' %}" class="btn">Ejecutar Scraping</a>
+        <a href="{% url 'indexar_datos' %}" class="btn">Indexar datos</a>
+        <a href="{% url 'lista_ropa_hombre' %}" class="btn">Ver Ropa de Hombre</a>
+    </div>
 </body>
 </html>
