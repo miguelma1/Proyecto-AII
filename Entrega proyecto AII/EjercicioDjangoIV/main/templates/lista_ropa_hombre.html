@@ -75,6 +75,10 @@
             text-decoration: line-through;
             color: #e74c3c;
         }
+        /* Estilo para los artículos en oferta */
+        .ropa-item.oferta {
+            background-color: #eafaf1; /* Fondo ligeramente más claro */
+        }
     </style>
 </head>
 <body>
@@ -86,10 +90,9 @@
         <a href="{% url 'buscar_ropa_hombre' %}" class="btn">Buscar</a>
     </div>
 
-
     <div class="ropa-lista">
         {% for item in ropa_hombre %}
-            <div class="ropa-item">
+            <div class="ropa-item {% if item.descuento %}oferta{% endif %}">
                 <h2>{{ item.nombre }}</h2>
                 <p><strong>Precio:</strong> {{ item.precio }}</p>
                 {% if item.precio_original %}

@@ -79,6 +79,17 @@
         .ropa-item a:hover {
             background-color: #2980b9;
         }
+        .ropa-item .precio-original {
+            text-decoration: line-through;
+            color: #e74c3c;
+        }
+        /* Estilo para los artículos en oferta */
+        .ropa-item.oferta {
+            background-color: #eafaf1; /* Fondo verde claro */
+        }
+        .ropa-item.oferta .precio-original {
+            color: #e74c3c; /* Precio tachado en rojo */
+        }
     </style>
 </head>
 <body>
@@ -95,11 +106,11 @@
     
     <div class="ropa-lista">
         {% for item in ropa_hombre %}
-            <div class="ropa-item">
+            <div class="ropa-item {% if item.descuento %}oferta{% endif %}">
                 <h2>{{ item.nombre }}</h2>
                 <p><strong>Precio:</strong> {{ item.precio }}</p>
                 {% if item.precio_original %}
-                    <p><strong>Precio Original:</strong> {{ item.precio_original }}</p>
+                    <p class="precio-original"><strong>Precio Original:</strong> {{ item.precio_original }}</p>
                 {% endif %}
                 {% if item.descuento %}
                     <p><strong>Descuento:</strong> {{ item.descuento }}</p>

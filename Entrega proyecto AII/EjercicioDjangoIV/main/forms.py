@@ -7,7 +7,7 @@ from django.core.validators import MinValueValidator, MaxValueValidator
    
 
 class BusquedaRopaForm(forms.Form):
-    query = forms.CharField(label='Buscar ropa de hombre', max_length=255)
+    query = forms.CharField(label='Buscar por nombre', max_length=255)
 """
 class VinosPorAnyo(forms.Form):
     anyo = forms.IntegerField(label="Introduzca un año (entre 1000 y el año actual) ", widget=forms.TextInput, validators=[MinValueValidator(1000), MaxValueValidator(datetime.today().year)], required=True)
