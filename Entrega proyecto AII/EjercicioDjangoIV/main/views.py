@@ -1,11 +1,10 @@
 #encoding:utf-8
 from main.models import RopaHombre
-from main.populateDB import populate
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.contrib import messages
 from django.shortcuts import redirect
-from main.scraping import extraer_ropaHombre, indexar_datos
+from main.populateDB import extraer_ropaHombre, indexar_datos
 import os 
 from whoosh.index import create_in, open_dir
 from main.forms import BusquedaRopaForm
